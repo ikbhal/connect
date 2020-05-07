@@ -25,7 +25,7 @@ def detail(request, student_id):
     page = {
             "student" : student
             }
-    return render(request, 'students/detail.html', page)
+    return render(request, 'student/detail.html', page)
 
 ## function to remove college, it receive college item id from url ###
 def remove(request, student_id):

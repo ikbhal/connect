@@ -21,7 +21,7 @@ from student import views as student_views
 urlpatterns = [
     path('', views.index, name='home'),
     path('colleges', views.index, name='college'),
-    path('college/<int:college_id>', views.detail, name='college_deail'),
+    path('colleges/<int:college_id>', views.detail, name='college_deail'),
     path('delcollege/<int:college_id>', views.remove, name='remove'),
     path('students', student_views.index, name='students'),
     path('students/<int:student_id>', student_views.detail, name='student_detail'),

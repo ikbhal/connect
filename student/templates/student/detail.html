@@ -63,7 +63,7 @@ margin-bottom : 5%;
 					{{student.mobile }} - {{student.email}}
 					<br/>
 					<hr/>
-					<a href="college/{{i.college.id}}">{{i.college.name}}</a>
+					<a href="/colleges/{{student.college.id}}">{{student.college.name}}</a>
 					<br />
 					<form action="/students/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
 						{% csrf_token %}
