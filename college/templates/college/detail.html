@@ -51,42 +51,22 @@ margin-bottom : 5%;
 		{% endfor %}
 		{% endif %}
 
-		<center class="row">
-			<h1><i>__STUDENT LIST__</i></h1>
-			<hr />
-		</center>
 
 		<div class="row">
 
 			<div class="col-md-8">
 
-				{% for i in list %}
 				<div class="card">
-					<center><b>{{i.name}}</b></center>
+					<center><b>{{college.name}}</b></center>
 					<hr/>
-					{{i.date}}
+					{{college.date}}
 					<hr/>
-					{{i.mobile }} - {{i.email}}
-					<br/>
-					<hr/>
-					<a href="college/{{i.college.id}}">{{i.college.name}}</a>
+					{{college.city }} - {{college.state}}
 					<br />
-					<form action="/students/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+					<br />
+					<form action="/delcollege/{{college.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
 						{% csrf_token %}
 						<button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
-					</form>
-				</div>
-				{% endfor%}
-			</div>
-			<div class="col-md-1"> </div>
-			<div class="col-md-3" >
-				<div  class="submit_form">
-					<form  method="POST">
-						{% csrf_token %}
-						{{forms|crispy}}
-						<center>
-							<input type="submit" class="btn btn-default" value="submit" />
-						</center>
 					</form>
 				</div>
 			</div>

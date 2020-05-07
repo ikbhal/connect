@@ -19,6 +19,15 @@ def index(request):
             }
     return render(request, 'college/index.html', page)
 
+def detail(request, college_id):
+    college = College.objects.get(id=college_id)
+    messages.info(request, "college retrieved !!!")
+    page = { 
+            "college" : college
+            }
+    return render(request, 'college/detail.html', page)
+
+
 ### function to remove college, it receive college item id from url ###
 def remove(request, college_id):
     college = College.objects.get(id=college_id)
