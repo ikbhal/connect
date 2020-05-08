@@ -3,6 +3,11 @@ from django.contrib import messages
 
 from .forms import CollegeForm
 from .models import College
+from admission.models import Admission
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     item_list = College.objects.order_by("-name")
@@ -20,11 +25,23 @@ def index(request):
     return render(request, 'college/index.html', page)
 
 def detail(request, college_id):
-    college = College.objects.get(id=college_id)
-    messages.info(request, "college retrieved !!!")
+    try:
+        college = College.objects.get(id=college_id)
+        admissions = Admission.objects.filter(college__id=college_id)
+        logger.debug("admissions", admissions)
+        messages.info(request, "college retrieve !!!")
+    except College.DoesNotExist:
+        college = None
+        admissions = None
+        messages.error(request, f'College {college_id} doest not exist')
+    except Admissions.DoesNotExist:
+        admissions = None
+        messages.info(request, "no students exist")
+    
     page = { 
-            "college" : college,
-            }
+        "college" : college,
+        "admissions" : admissions,
+        }
     return render(request, 'college/detail.html', page)
 
 

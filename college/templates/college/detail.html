@@ -51,7 +51,7 @@ margin-bottom : 5%;
 		{% endfor %}
 		{% endif %}
 
-
+		{% if college %}
 		<div class="row">
 
 			<div class="col-md-8">
@@ -71,29 +71,23 @@ margin-bottom : 5%;
 				</div>
 			</div>
 		</div>
+		{% if admissions %}
 		<center class="row">
-			<h1><i>__STUDENT LIST__</i></h1>
+			<h1><i>Students</i></h1>
 			<hr />
 		</center>
-
+		
 		<div class="row">
-
 			<div class="col-md-8">
-
-				{% for i in students%}
+				{% for i in admissions%}
 				<div class="card">
-					<center><b><a href="/students/{{i.id}}">{{i.name}}</a></b></center>
-					
-					<a href="/colleges/{{i.college.id}}">{{i.college.name}}</a>
-					<br />
-					<form action="/students/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
-						{% csrf_token %}
-						<button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
-					</form>
+					<center><b><a href="/students/{{i.student.id}}">{{i.student.name}}</a>  {{i.start_date.yaer}}-{{i.end_date.year}}</b></center>
 				</div>
 				{% endfor%}
 			</div>
 		</div>
+		{% endif %}
+		{% endif %}
 
 	</body>
 
