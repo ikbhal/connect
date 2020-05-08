@@ -51,6 +51,7 @@ margin-bottom : 5%;
 		{% endfor %}
 		{% endif %}
 
+		{% if student %}
 		<div class="row">
 			<div class="col-md-8">
 				<div class="card">
@@ -66,10 +67,10 @@ margin-bottom : 5%;
 					</form>
 				</div>
 				<center>
-
 					<h1><i>Education</i></h1>
 					<hr />
 				</center>
+				{% if admissions %}
 				<div class="card">
 					{% for i in admissions%}
 					<div>
@@ -80,8 +81,10 @@ margin-bottom : 5%;
 					</div>
 					{% endfor%}
 				</div>
-
+				{% endif %}
 			</div>
+		</div>
+		{% endif %}
 	</body>
 
 </html>

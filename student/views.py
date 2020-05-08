@@ -21,13 +21,18 @@ def index(request):
     return render(request, 'student/index.html', page)
 
 def detail(request, student_id):
-    student = Student.objects.get(id=student_id)
-    admissions = Admission.objects.filter(student__id=student_id)
-    messages.info(request, "student retrieve !!!")
+    try:
+        student = Student.objects.get(id=student_id)
+        admissions = Admission.objects.filter(student__id=student_id)
+        messages.info(request, "student retrieve !!!")
+    except Student.DoesNotExist:
+        admissions = None
+        student = None
+        messages.info(request, f'student {student_id} doest not exist')
     page = {
-            "student" : student,
-            "admissions" : admissions,
-            }
+        "student" : student,
+        "admissions" : admissions,
+        }
     return render(request, 'student/detail.html', page)
 
 ## function to remove college, it receive college item id from url ###
