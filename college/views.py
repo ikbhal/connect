@@ -21,11 +21,9 @@ def index(request):
 
 def detail(request, college_id):
     college = College.objects.get(id=college_id)
-    students = college.student_set.all()
     messages.info(request, "college retrieved !!!")
     page = { 
             "college" : college,
-            "students" : students,
             }
     return render(request, 'college/detail.html', page)
 

@@ -64,7 +64,6 @@ margin-bottom : 5%;
 				<div class="card">
 					<center><b><a href="students/{{i.id}}">{{i.name}}</a></b></center>
 					
-					<a href="colleges/{{i.college.id}}">{{i.college.name}}</a>
 					<br />
 					<form action="/students/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
 						{% csrf_token %}
