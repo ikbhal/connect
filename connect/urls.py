@@ -25,5 +25,6 @@ urlpatterns = [
     path('delcollege/<int:college_id>', views.remove, name='remove'),
     path('students', student_views.index, name='students'),
     path('students/<int:student_id>', student_views.detail, name='student_detail'),
+    path('students/<int:student_id>/edit', student_views.edit, name='student_edit'),
     path('admin/', admin.site.urls),
 ]

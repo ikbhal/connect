@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 
 from .forms import StudentForm
@@ -42,3 +42,14 @@ def remove(request, student_id):
     messages.info(request, "student removed !!!")
     return redirect('students')
 
+def edit(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)
+    if request.method == "POST":
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.save()
+            return redirect('student_detail',student_id=student.id)
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'student/edit.html', {'form': form})
