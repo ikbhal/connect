@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from college import views
 from student import views as student_views
+from admission import views as admission_views
 
 urlpatterns = [
     path('', views.index, name='home'),
@@ -24,7 +25,15 @@ urlpatterns = [
     path('colleges/<int:college_id>', views.detail, name='college_deail'),
     path('delcollege/<int:college_id>', views.remove, name='remove'),
     path('students', student_views.index, name='students'),
-    path('students/<int:student_id>', student_views.detail, name='student_detail'),
-    path('students/<int:student_id>/edit', student_views.edit, name='student_edit'),
+    path('students/<int:student_id>', student_views.detail,\
+         name='student_detail'),
+    path('students/<int:student_id>/edit', student_views.edit,\
+         name='student_edit'),
+    path('students/<int:student_id>/admissions/<int:admission_id>',\
+         admission_views.delete, \
+         name='admission_delete'),
+    path('students/<int:student_id>/admissions', \
+         admission_views.add, name='admission_add'),
+
     path('admin/', admin.site.urls),
 ]

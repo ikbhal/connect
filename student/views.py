@@ -4,6 +4,9 @@ from django.contrib import messages
 from .forms import StudentForm
 from .models import Student
 from admission.models import Admission
+import logging
+
+logger = logging.getLogger('student.views')
 
 def index(request):
     item_list = Student.objects.order_by("-name")
@@ -24,6 +27,7 @@ def detail(request, student_id):
     try:
         student = Student.objects.get(id=student_id)
         admissions = Admission.objects.filter(student__id=student_id)
+        logger.debug("admissions ikb", admissions)
         messages.info(request, "student retrieve !!!")
     except Student.DoesNotExist:
         admissions = None

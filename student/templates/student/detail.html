@@ -2,96 +2,129 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
-	<head>
+    <head>
 
-		<meta charset="utf-8">
-		<title>{{title}}</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<!--style-->
-		<style>
+        <meta charset="utf-8">
+        <title>{{title}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--style-->
+        <style>
 .card {
 
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5),
-	0 6px 20px 0 rgba(0,0,0,0.39);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5),
+    0 6px 20px 0 rgba(0,0,0,0.39);
 background: lightpink;
 margin-bottom : 5%;
-				     border-radius: 25px;
-				     padding : 2%;
-			     overflow: auto;
-			     resize: both;
-			     text-overflow: ellipsis;
+                     border-radius: 25px;
+                     padding : 2%;
+                 overflow: auto;
+                 resize: both;
+                 text-overflow: ellipsis;
 }
     .card:hover{
-	    background: lightblue;
+        background: lightblue;
     }
 
     .submit_form{
 
-	    text-align: center;
-	    padding: 3%;
-	    background: pink;
-	    border-radius: 25px;
-	    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4),
-	    0 6px 20px 0 rgba(0,0,0,0.36);
+        text-align: center;
+        padding: 3%;
+        background: pink;
+        border-radius: 25px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4),
+        0 6px 20px 0 rgba(0,0,0,0.36);
     }
-		</style>
+        </style>
 
-	</head>
+    </head>
 
-	<body  class="container-fluid">
+    <body  class="container-fluid">
 
-		{% if messages %}
-		{% for message in messages %}
-		<div class="alert alert-info">
-			<strong>{{message}}</strong>
-		</div>
-		{% endfor %}
-		{% endif %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info">
+            <strong>{{message}}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
 
-		{% if student %}
-		<div class="row">
-			<div class="col-md-8">
-				<div class="card">
-					<center><b>{{student.name}}</b></center>
-					<hr/>
-					{{student.date}}
-					<hr/>
-					{{student.mobile }} - {{student.email}}
-					<br/>
-					<a class="btn btn-default" href="{% url 'student_edit' student_id=student.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-					<!--
-					<form action="/students/{{i.id}}/edit" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
-						{% csrf_token %}
-						<button value="remove" type="submit"  class="btn btn-primary" style=""><span class="glyphicon glyphicon-pencil"></span> &nbsp; edit</button>
-					</form>
-					<form action="/students/{{i.id}}/" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
-						{% csrf_token %}
-						<button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
-					</form>
-					-->
-				</div>
-				<center>
-					<h1><i>Education</i></h1>
-					<hr />
-				</center>
-				{% if admissions %}
-				<div class="card">
-					{% for i in admissions%}
-					<div>
-						<center><b><a href="/colleges/{{i.college.id}}">{{i.college.name}}</a></b></center>
-						<br>	
-						{{i.start_date.year}} - {{i.end_date.year}}
-						<br />
-					</div>
-					{% endfor%}
-				</div>
-				{% endif %}
-			</div>
-		</div>
-		{% endif %}
-	</body>
+        {% if student %}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <center><b>{{student.name}}</b></center>
+                    <hr/>
+                    {{student.date}}
+                    <hr/>
+                    {{student.mobile }} - {{student.email}}
+                    <br/>
+                    <a class="btn btn-default" href="{% url 'student_edit' student_id=student.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <!--
+                        <form action="/students/{{i.id}}/edit" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+                        {% csrf_token %}
+                        <button value="remove" type="submit"  class="btn btn-primary" style=""><span class="glyphicon glyphicon-pencil"></span> &nbsp; edit</button>
+                        </form>
+                        <form action="/students/{{i.id}}/" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+                        {% csrf_token %}
+                        <button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
+                        </form>
+                    -->
+                </div>
+                <center>
+                    <h1><i>Education</i></h1>
+                    <hr />
+                </center>
+                
+                <div class="card">
+                    <div class="add_admission_form">
+                        <h2>Add Admission</h2>
+
+                        <form action="/students/{{student.id}}/admissions" method="POST">
+                            {% csrf_token %}
+                            Student Id <br>
+                            <input type="text" name="student_id"><br>
+                            College Id<br>
+                            <input type="text" name="college_id"><br>
+                            Start date<br>
+                            <input type="date" name="start_date"><br>
+                            End date<br>
+                            <input type="date" name="end_date"><br>
+                            <input type="submit" value="Add" ></input>
+                        </form>
+                    </div>
+                </div>
+                <div class="admission_list">
+                   <h2>Admissions</h2>
+                {% if admissions %}
+                    {% for i in admissions%}
+                    <div class="card">
+                        <center><b><a href="/colleges/{{i.college.id}}">{{i.college.name}}</a></b></center>
+                        <br>	
+                        {{i.start_date.year}} - {{i.end_date.year}}
+                        <form action="/students/{{student.id}}/admissions/{{i.id}}"
+                            method="DELETE" style=" padding-right: 4%; padding-bottom: 3%;">
+                            {% csrf_token %}
+                            <button value="remove" type="submit"  class="btn btn-primary" 
+                                style="float: right;">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                delete
+                            </button>
+                        </form>
+                        <br />
+                    </div>
+                    {% endfor%}
+                {% else %}
+                    <div>
+                        <p>Please Add Education details</p>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </body>
 
 </html>
