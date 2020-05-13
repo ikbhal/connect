@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
+from django.urls import reverse
 
 from .forms import StudentForm
+from admission.forms import AdmissionForm
 from .models import Student
 from admission.models import Admission
 import logging
@@ -27,15 +29,19 @@ def detail(request, student_id):
     try:
         student = Student.objects.get(id=student_id)
         admissions = Admission.objects.filter(student__id=student_id)
-        logger.debug("admissions ikb", admissions)
+        admission_form = AdmissionForm()
+        admission_form.helper.form_action = reverse('admission_add',\
+            args=(student_id,))
         messages.info(request, "student retrieve !!!")
     except Student.DoesNotExist:
         admissions = None
         student = None
+        admission_form = None
         messages.info(request, f'student {student_id} doest not exist')
     page = {
         "student" : student,
         "admissions" : admissions,
+        "admission_form" : admission_form,
         }
     return render(request, 'student/detail.html', page)
 

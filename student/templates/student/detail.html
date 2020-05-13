@@ -62,22 +62,20 @@ margin-bottom : 5%;
                     {{student.mobile }} - {{student.email}}
                     <br/>
                     <a class="btn btn-default" href="{% url 'student_edit' student_id=student.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <!--
-                        <form action="/students/{{i.id}}/edit" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
-                        {% csrf_token %}
-                        <button value="remove" type="submit"  class="btn btn-primary" style=""><span class="glyphicon glyphicon-pencil"></span> &nbsp; edit</button>
-                        </form>
-                        <form action="/students/{{i.id}}/" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
-                        {% csrf_token %}
-                        <button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
-                        </form>
-                    -->
                 </div>
                 <center>
                     <h1><i>Education</i></h1>
                     <hr />
                 </center>
-                
+                <div class="card">
+                    <div class="add_admission_form">
+                        <h2>New Add Admission </h2>
+                        <form method="POST" action="/students/{{student.id}}/admissions">
+                            {% csrf_token %}
+                            {% crispy admission_form %}
+                    </div>
+                </div>
+                <!--
                 <div class="card">
                     <div class="add_admission_form">
                         <h2>Add Admission</h2>
@@ -96,6 +94,7 @@ margin-bottom : 5%;
                         </form>
                     </div>
                 </div>
+                -->
                 <div class="admission_list">
                    <h2>Admissions</h2>
                 {% if admissions %}

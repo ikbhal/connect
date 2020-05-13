@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import date
 import datetime
 from .models import Admission
+from .forms import AdmissionForm
 from student.models import Student
 from college.models import College
 from django.contrib import messages
@@ -28,6 +29,12 @@ def add(request, student_id):
     # create admission object
 
     # for simplicity, we assume, all details in request.POST
+    form = AdmissionForm(request.POST)
+    if form.is_valid():
+         form.save()
+
+    return redirect('student_detail', student_id=student_id)
+    """
     try :
         student_id = request.POST['student_id']
         college_id = request.POST['college_id']
@@ -55,3 +62,4 @@ def add(request, student_id):
         messages.error(request, "college_id is wrong")
 
     return redirect('student_detail', student_id=student_id)
+    """
