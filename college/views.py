@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib import messages
 
 from .forms import CollegeForm
@@ -37,8 +37,8 @@ def detail(request, college_id):
     except Admissions.DoesNotExist:
         admissions = None
         messages.info(request, "no students exist")
-    
-    page = { 
+
+    page = {
         "college" : college,
         "admissions" : admissions,
         }
@@ -51,4 +51,16 @@ def remove(request, college_id):
     college.delete()
     messages.info(request, "college removed !!!")
     return redirect('college')
+
+def edit(request, college_id):
+    college = get_object_or_404(College, pk=college_id) # T import get_objct..
+    if request.method == "POST":
+        form = CollegeForm(request.POST, instance=college) # T CollegeForm crete if not
+        if form.is_valid():
+            college = form.save(commit=False)
+            college.save()
+            redirect('college_detail', college_id=college_id) #  T C url exist
+    else:
+        form = CollegeForm(instance=college)
+    return  render(request, 'college/edit.html', {'form': form}) # T edit.html
 

@@ -22,7 +22,8 @@ from admission import views as admission_views
 urlpatterns = [
     path('', views.index, name='home'),
     path('colleges', views.index, name='college'),
-    path('colleges/<int:college_id>', views.detail, name='college_deail'),
+    path('colleges/<int:college_id>', views.detail, name='college_detail'),
+    path('colleges/<int:college_id>/edit', views.edit, name='college_edit'),
     path('delcollege/<int:college_id>', views.remove, name='remove'),
     path('students', student_views.index, name='students'),
     path('students/<int:student_id>', student_views.detail,\

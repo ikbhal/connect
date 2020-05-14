@@ -64,9 +64,10 @@ margin-bottom : 5%;
 					{{college.city }} - {{college.state}}
 					<br />
 					<br />
+                    <a style="float:right;margin-left:10px" class="btn btn-default" href="{% url 'college_edit' college_id=college.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
 					<form action="/delcollege/{{college.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
 						{% csrf_token %}
-						<button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
+						<button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span></button>
 					</form>
 				</div>
 			</div>
