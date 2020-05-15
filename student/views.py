@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse
 
-from .forms import StudentForm
+from .forms import StudentForm, NewUserForm
 from admission.forms import AdmissionForm
 from .models import Student
 from admission.models import Admission
@@ -63,3 +66,48 @@ def edit(request, student_id):
     else:
         form = StudentForm(instance=student)
     return render(request, 'student/edit.html', {'form': form})
+
+@login_required
+def home(request):
+    return render(request, 'student/home.html')
+
+def register(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            login(request, user)
+            return redirect("student_home")
+        else:
+            for msg in form.error_messages:
+                messages.error(request, form.error_messages[msg])
+            return render(request, "student/register.html", {'form':form})
+
+    form = NewUserForm
+    return render(request, "student/register.html", {'form': form})
+
+def login_request(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data = request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if  user is not None:
+                login(request, user)
+                messages.info(request, f"you are now logged in as {username}")
+                return redirect("student_home")
+            else:
+                 messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+
+    form = AuthenticationForm()
+    return render(request, 'student/login.html', {'form': form})
+
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return  redirect('login')

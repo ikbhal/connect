@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+     <meta charset="utf-8">
+     <title>{{title}}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+<body class="container-fluid">
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info">
+    <strong>{{message}}</strong>
+  </div>
+  {% endfor %}
+  {% endif %}
+  <h1>Student Login</h1>
+  <div class="container">
+     <form method="POST">
+       {% csrf_token %}
+       {{form.as_p}}
+       <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
+     </form>
+     Don't have an account? <a href="/register" target="blank"><strong>register here</strong></a>
+  </div>
+</body>
+</html>
