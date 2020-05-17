@@ -10,14 +10,20 @@ class StudentForm(forms.ModelForm):
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    mobile = forms.CharField(required=True)
 
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
 
     def save(self, commit=True):
-        user = super(NewUserForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
+        #user = super(NewUserForm, self).save(commit=False)
+        user = super(NewUserForm, self).save()
+        #user.email = self.cleaned_data["email"]
+        #user.mobile = self.cleaned_data["mobile"]
+        # create student
+        email = self.cleaned_data["email"]
+        mobile = self.cleaned_data["mobile"]
+        student = Student.objects.create(name=user.username, email=email, mobile=mobile,\
+                               user=user)
         return user
