@@ -69,7 +69,14 @@ def edit(request, student_id):
 
 @login_required
 def home(request):
-    return render(request, 'student/home.html')
+    try:
+        user = request.user
+        student =  Student.objects.get(user=user)
+        messages.info(request, "Student found " +  student.mobile + student.name)
+    except Student.DoesNotExist:
+        messsages.info("No student found for loggedn user")
+        student = None
+    return render(request, "student/home.html", {'student': student})
 
 def register(request):
     if request.method == "POST":
@@ -83,9 +90,9 @@ def register(request):
             for msg in form.error_messages:
                 messages.error(request, form.error_messages[msg])
             return render(request, "student/register.html", {'form':form})
-
     form = NewUserForm
     return render(request, "student/register.html", {'form': form})
+
 
 def login_request(request):
     if request.method == 'POST':
@@ -96,7 +103,6 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if  user is not None:
                 login(request, user)
-                messages.info(request, f"you are now logged in as {username}")
                 return redirect("student_home")
             else:
                  messages.error(request, "Invalid username or password.")

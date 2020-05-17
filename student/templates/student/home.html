@@ -5,6 +5,9 @@
 <body>
 <h1>Student Home</h1>
 <p><a href="logout">logout</a></p>
+{% if student is not None %}
+Hello {{ student.name}}
+{% endif %}
 </body>
 </html>
 
