@@ -39,6 +39,8 @@ urlpatterns = [
          name='admission_delete'),
     path('students/<int:student_id>/admissions', \
          admission_views.add, name='admission_add'),
+    path('students/<int:student_id>/admissions/<int:admission_id>/edit', \
+         admission_views.edit, name='admission_edit'),
 
     path('admin/', admin.site.urls),
 ]

@@ -34,32 +34,10 @@ def add(request, student_id):
          form.save()
 
     return redirect('student_detail', student_id=student_id)
-    """
-    try :
-        student_id = request.POST['student_id']
-        college_id = request.POST['college_id']
-        format_str="%Y-%m-%d"
-        #time data '2001-06-01' does not match format '%m/%d/%Y'
-        start_date = request.POST['start_date']
-        start_date = datetime.datetime.strptime(start_date, format_str).date()
-        end_date = request.POST['end_date']
-        end_date = datetime.datetime.strptime(end_date, format_str).date()
-        date = timezone.now()
 
-        student = Student.objects.get(id=student_id)
-        college = College.objects.get(id=college_id)
-        admission = Admission()
-        admission.student = student
-        admission.college = college
-        admission.start_date = start_date
-        admission.end_date = end_date
-        admission.date = date
-
-        admission.save()
-    except Student.DoesNotExist:
-        messages.error(request, "student_id is wrong")
-    except College.DoesNotExist:
-        messages.error(request, "college_id is wrong")
-
+def edit(request, student_id, admission_id):
+    try:
+        admission = Admission.objects.get(id=admission_id)
+    except Admission.DoesNotExist:
+        messages.error(request, f"admission {admission_id} does not exist")
     return redirect('student_detail', student_id=student_id)
-    """

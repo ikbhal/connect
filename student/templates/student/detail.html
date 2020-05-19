@@ -103,13 +103,14 @@ margin-bottom : 5%;
                         <center><b><a href="/colleges/{{i.college.id}}">{{i.college.name}}</a></b></center>
                         <br>	
                         {{i.start_date.year}} - {{i.end_date.year}}
+                        <br>
+                        <a class="btn btn-default" href="{% url 'admission_edit' student_id=student.id admission_id=i.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                         <form action="/students/{{student.id}}/admissions/{{i.id}}"
                             method="DELETE" style=" padding-right: 4%; padding-bottom: 3%;">
                             {% csrf_token %}
                             <button value="remove" type="submit"  class="btn btn-primary" 
                                 style="float: right;">
                                 <span class="glyphicon glyphicon-trash"></span>
-                                delete
                             </button>
                         </form>
                         <br />
