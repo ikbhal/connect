@@ -37,7 +37,18 @@ def add(request, student_id):
 
 def edit(request, student_id, admission_id):
     try:
+        student = Student.objects.get(id=student_id)
         admission = Admission.objects.get(id=admission_id)
+        if request.method == "POST":
+            admission_form = AdmissionForm(request.POST, instance=admission)
+            admission_form.save()
+            return redirect('student_detail', student_id)
+        else:
+             admission_form =  AdmissionForm(instance=admission)
     except Admission.DoesNotExist:
         messages.error(request, f"admission {admission_id} does not exist")
-    return redirect('student_detail', student_id=student_id)
+        admission = None
+        student = None
+    return render(request, 'admission/edit.html', \
+                  {'student': student, 'admission':admission, \
+                   'admission_form' : admission_form})
