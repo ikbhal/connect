@@ -3,16 +3,30 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
 from django.urls import reverse
 
 from .forms import StudentForm, NewUserForm
 from admission.forms import AdmissionForm
 from .models import Student
+from .serializers import StudentSerializer
 from admission.models import Admission
 import logging
 
 logger = logging.getLogger('student.views')
 
+# api section begin
+@api_view(['GET', 'POST', 'DELETE'])
+def student_list(request):
+    if request.method == 'GET':
+        students = Student.objects.all()
+        students_serializer = StudentSerializer(students, many=True)
+        return JsonResponse(students_serializer.data, safe=False)
+
+# api section end
 def index(request):
     item_list = Student.objects.order_by("-name")
     if request.method == "POST":

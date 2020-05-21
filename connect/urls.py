@@ -20,7 +20,8 @@ from student import views as student_views
 from admission import views as admission_views
 
 urlpatterns = [
-    path('api/', include('tutorial.urls')),
+    path('tut/api/', include('tutorial.urls')),
+    path('api/', include('student.urls')),
     path('', views.index, name='home'),
     path('home', student_views.home, name="student_home"),
     path('register', student_views.register, name="register"),
