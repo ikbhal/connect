@@ -3,7 +3,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from django.http.response import JsonResponse
+from django.utils import timezone
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -20,11 +22,29 @@ logger = logging.getLogger('student.views')
 
 # api section begin
 @api_view(['GET', 'POST', 'DELETE'])
-def student_list(request):
+def student_list_add_delete(request):
     if request.method == 'GET':
+        # student list
         students = Student.objects.all()
         students_serializer = StudentSerializer(students, many=True)
         return JsonResponse(students_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        # add student
+        name = request.POST['name'] or 'testname'
+        mobile = request.POST['mobile'] or '9901014560test'
+        email = request.POST['email'] or  'iqbalforall@gmail.comtest'
+        password = request.POST['password'] or 'PassPass1'
+        date  = timezone.now()
+        # User( username, password, email, last_name, first_name
+        user = user = User.objects.create_user(name, email, password)
+        user.save()
+        student = Student.objects.create(name=name, mobile=mobile, email=email, \
+            date=date, user=user)
+        student.save()
+        student_serializer = StudentSerializer(student)
+        return JsonResponse(student_serializer.data, safe=False)
+
 
 # api section end
 def index(request):
