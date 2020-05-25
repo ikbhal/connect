@@ -30,21 +30,44 @@ def student_list_add_delete(request):
         return JsonResponse(students_serializer.data, safe=False)
 
     elif request.method == 'POST':
+        student_data = JSONParser().parse(request.data)
+        student_serializer = StudentSerializer(data=student_data)
+        if student_serializer.is_valid():
+            student_serializer.save()
+            return JsonResponse(student_serializer.data, status=\
+                status.HTTP_201_CREATED)
+        return JsonResponse(student_serializer.errors, status=\
+                status.HTTP_400_BAD_REQEUST)
         # add student
-        name = request.POST['name'] or 'testname'
-        mobile = request.POST['mobile'] or '9901014560test'
-        email = request.POST['email'] or  'iqbalforall@gmail.comtest'
-        password = request.POST['password'] or 'PassPass1'
-        date  = timezone.now()
+        #name = request.POST['name'] or 'testname'
+        #mobile = request.POST['mobile'] or '9901014560test'
+        #email = request.POST['email'] or  'iqbalforall@gmail.comtest'
+        #password = request.POST['password'] or 'PassPass1'
+        #date  = timezone.now()
         # User( username, password, email, last_name, first_name
-        user = user = User.objects.create_user(name, email, password)
-        user.save()
-        student = Student.objects.create(name=name, mobile=mobile, email=email, \
-            date=date, user=user)
-        student.save()
-        student_serializer = StudentSerializer(student)
-        return JsonResponse(student_serializer.data, safe=False)
+        #user = user = User.objects.create_user(name, email, password)
+        #user.save()
+        #student = Student.objects.create(name=name, mobile=mobile, email=email, \
+        #    date=date, user=user)
+        #student.save()
+        #student_serializer = StudentSerializer(student)
+        #return JsonResponse(student_serializer.data, safe=False)
 
+@api_view(['GET', 'PUT', 'DELETE'])
+def student_detail(request, pk):
+    student = Student.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        student_serializer = StudentSerializer(student)
+        return JsonResponse(student_serializer.data)
+    elif request.method == 'DELETE':
+        student.delete()
+        return JsonResponse({'message', 'Student was deleted successfully!'},\
+            status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'UPDATE':
+        # TODO implement update
+        return JsonResponse({'message', 'will implement soon'}, \
+            status=status.HTTP_204_NO_CONTENT)
 
 # api section end
 def index(request):
