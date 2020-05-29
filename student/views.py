@@ -30,14 +30,17 @@ def student_list_add_delete(request):
         return JsonResponse(students_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        student_data = JSONParser().parse(request.data)
-        student_serializer = StudentSerializer(data=student_data)
-        if student_serializer.is_valid():
-            student_serializer.save()
-            return JsonResponse(student_serializer.data, status=\
-                status.HTTP_201_CREATED)
-        return JsonResponse(student_serializer.errors, status=\
-                status.HTTP_400_BAD_REQEUST)
+        return JsonResponse({"message": request})
+        #student_data = JSONParser().parse(request.data)
+        #student_serializer = StudentSerializer(data=student_data)
+        #if student_serializer.is_valid():
+            #student_serializer.save()
+            #return JsonResponse({"message": "will save student .."})
+            #return JsonResponse(student_serializer.data, status=\
+            #    status.HTTP_201_CREATED)
+        #return JsonResponse({"message": "can not save students..."})
+        #return JsonResponse(student_serializer.errors, status=\
+        #        status.HTTP_400_BAD_REQEUST)
         # add student
         #name = request.POST['name'] or 'testname'
         #mobile = request.POST['mobile'] or '9901014560test'
@@ -56,7 +59,7 @@ def student_list_add_delete(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def student_detail(request, pk):
     student = Student.objects.get(pk=pk)
-
+    print("insdie studenet_detail")
     if request.method == 'GET':
         student_serializer = StudentSerializer(student)
         return JsonResponse(student_serializer.data)
