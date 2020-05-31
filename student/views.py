@@ -30,7 +30,15 @@ def student_list_add_delete(request):
         return JsonResponse(students_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        return JsonResponse({"message": request})
+        student_serializer= StudentSerializer(data=request.data)
+        if student_serializer.is_valid():
+            student = student_serializer.save()
+            student.user = User.objects.create_user(student.name,\
+                student.email, "PassPass1")
+            student.save()
+            return JsonResponse({"message": "save student"})
+        else:
+            return JsonResponse({"message": "invalid student body"})
         #student_data = JSONParser().parse(request.data)
         #student_serializer = StudentSerializer(data=student_data)
         #if student_serializer.is_valid():
